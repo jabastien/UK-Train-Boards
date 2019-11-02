@@ -8,7 +8,10 @@
         <h1 ref="title">
           {{ trans(`boards.${type}`) }}
         </h1>
-        <table class="services">
+        <table
+          class="services"
+          ref="table"
+        >
           <thead ref="thead">
             <tr>
               <th class="services__time">
@@ -25,18 +28,17 @@
               </th>
             </tr>
           </thead>
-          <tbody ref="tbody">
-            <Board-Service
-              v-for="service in services.slice(offset, page * rowsPerPage)"
-              :key="service.serviceID"
-              :service="service"
-              :type="type"
-            />
-            <Board-Service-Filler
-              v-for="filler in fillers"
-              :key="`filler-${filler}`"
-            />
-          </tbody>
+          <Board-Service
+            v-for="service in services.slice(offset, page * rowsPerPage)"
+            :key="service.serviceID"
+            :service="service"
+            :type="type"
+            :via="via"
+          />
+          <Board-Service-Filler
+            v-for="filler in fillers"
+            :key="`filler-${filler}`"
+          />
           <tfoot ref="tfoot">
             <tr class="service">
               <Board-Page
@@ -92,7 +94,7 @@ export default {
                 },
             },
         }],
-        via: true,
+        via: 'newline',
         rowsPerPage: 8,
         pages: 1,
         offset: 0,
@@ -139,9 +141,10 @@ export default {
         },
 
         calculateRows() {
-            if (!this.$refs.tbody.firstChild) return;
+            const tbodies = this.$refs.table.tBodies;
+            if (!tbodies) return;
 
-            const rowHeight = this.$refs.tbody.firstChild.offsetHeight;
+            const rowHeight = tbodies[0].firstElementChild.offsetHeight;
             const freeSpace = window.innerHeight
                 - this.$refs.title.offsetHeight
                 - this.$refs.thead.offsetHeight

@@ -1,29 +1,43 @@
 <template>
-  <tr class="service">
-    <td class="service__scheduled">
-      {{ service.scheduled }}
-    </td>
-    <td
-      class="service__location"
-      :class="{'service__changed': changed.location}"
+  <tbody>
+    <tr class="service">
+      <td class="service__scheduled">
+        {{ service.scheduled }}
+      </td>
+      <td
+        class="service__location"
+        :class="{'service__changed': changed.location}"
+      >
+        {{ location.name }}
+        <span v-if="location.via && via === 'oneline'">
+          {{ location.via }}
+        </span>
+      </td>
+      <td
+        class="service__platform"
+        :class="{'service__changed': changed.platform}"
+      >
+        {{ service.platform }}
+      </td>
+      <td
+        class="service__expected"
+      >
+        {{ service.expected }}
+      </td>
+    </tr>
+    <tr
+      v-if="location.via && via === 'newline'"
+      class="service service--via"
     >
-      {{ location.name }}
-      <span v-if="location.via">
+      <td class="service__scheduled">&nbsp;</td>
+      <td
+        class="service__location service__location--via"
+        colspan="3"
+      >
         {{ location.via }}
-      </span>
-    </td>
-    <td
-      class="service__platform"
-      :class="{'service__changed': changed.platform}"
-    >
-      {{ service.platform }}
-    </td>
-    <td
-      class="service__expected"
-    >
-      {{ service.expected }}
-    </td>
-  </tr>
+      </td>
+    </tr>
+  </tbody>
 </template>
 
 <script>
@@ -37,6 +51,11 @@ export default {
         type: {
             type: String,
             required: true,
+        },
+        via: {
+            type: String,
+            required: false,
+            default: 'oneline',
         },
     },
 

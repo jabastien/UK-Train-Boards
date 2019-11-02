@@ -1,5 +1,5 @@
 .board {
-    cursor: none;
+  cursor: none;
 }
 
 .service {
@@ -31,10 +31,17 @@
     white-space: nowrap;
     text-overflow: ellipsis;
     overflow-x: hidden;
+
+    &--via {
+      text-align: left;
+    }
   }
 
   &__platform {
     text-transform: uppercase;
+  }
+
+  &__expected {
   }
 
   &__changed {
@@ -55,11 +62,6 @@
 
   th, td {
     vertical-align: top;
-
-    &:last-child,
-    &:nth-last-child(2) {
-      text-align: right;
-    }
   }
 
   &__time {
@@ -82,6 +84,17 @@
     td:first-child {
       text-align: left;
     }
+  }
+}
+
+.service,
+.services {
+  &__platform {
+    text-align: right;
+  }
+
+  &__expected {
+    text-align: right;
   }
 }
 
